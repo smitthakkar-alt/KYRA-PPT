@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYRA AI - Intelligence That Knows Your Customer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Navigation Sidebar */
+        .nav-sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            padding: 30px 20px;
+            overflow-y: auto;
+            border-right: 2px solid #00d4ff;
+        }
+
+        .nav-sidebar h3 {
+            color: #00d4ff;
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .chapter-list {
+            list-style: none;
+        }
+
+        .chapter-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+
+        .chapter-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-left-color: #00d4ff;
+        }
+
+        .chapter-item.active {
+            background: rgba(0, 212, 255, 0.2);
+            border-left-color: #00d4ff;
+            font-weight: bold;
+        }
+
+        /* Main Presentation Area */
+        .presentation-main {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 18px;
+            color: #00d4ff;
+            z-index: 100;
+            font-weight: 600;
+        }
+
+        /* Slides Container */
+        .slides-container {
+            flex: 1;
+            position: relative;
+            padding-bottom: 120px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 60px 150px 60px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        /* SLIDE 1 - Particles Background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: float 20s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-50px) translateX(-50px); }
+            75% { transform: translateY(-150px) translateX(30px); }
+        }
+
+        /* Staggered fade-in for text elements */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
+
+        /* SLIDE 2 - Pulsing Crisis Number */
+        .crisis-pulse {
+            animation: crisisPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes crisisPulse {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 30px rgba(255, 68, 68, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 50px rgba(255, 68, 68, 0.8);
+            }
+        }
+
+        /* Warning Icon */
+        .warning-icon {
+            display: inline-block;
+            font-size: 80px;
+            animation: warningBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes warningBlink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        /* SLIDES 3,4 - Staggered Stats Entry */
+        .stat-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 35px 30px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: slideInScale 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .stat-box:nth-child(1) { animation-delay: 0.1s; }
+        .stat-box:nth-child(2) { animation-delay: 0.2s; }
+        .stat-box:nth-child(3) { animation-delay: 0.3s; }
+        .stat-box:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-box:hover {
+            transform: translateY(-8px) scale(1.05);
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+            border-color: #00ff88;
+        }
+
+        .stat-number {
+            font-size: 60px;
+            font-weight: 900;
+            color: #00d4ff;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 22px;
+            color: #cccccc;
+            line-height: 1.3;
+        }
+
+        /* SLIDES 5,6 - Alert Icon + Staggered Entry */
+        .no-bullet-item {
+            font-size: 30px;
+            padding: 18px 22px;
+            margin: 12px 0;
+            background: rgba(0, 212, 255, 0.08);
+            border-left: 4px solid #00d4ff;
+            border-radius: 8px;
+            line-height: 1.4;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .no-bullet-item:nth-child(1) { animation-delay: 0.2s; }
+        .no-bullet-item:nth-child(2) { animation-delay: 0.4s; }
+        .no-bullet-item:nth-child(3) { animation-delay: 0.6s; }
+
+        .no-bullet-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+            border-left-color: #00ff88;
+            border-left-width: 6px;
+        }
+
+        /* SLIDE 8 - Animated Arrow */
+        .arrow {
+            font-size: 75px;
+            color: #00d4ff;
+            animation: arrowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(10px);
+                opacity: 0.7;
+            }
+        }
+
+        /* Checkmark Animation */
+        .check-item {
+            font-size: 30px;
+            padding: 12px 22px;
+            margin: 12px 0;
+            line-height: 1.4;
+            opacity: 0;
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .check-item:nth-child(1) { animation-delay: 0.3s; }
+        .check-item:nth-child(2) { animation-delay: 0.5s; }
+        .check-item:nth-child(3) { animation-delay: 0.7s; }
+
+        .check-item::before {
+            content: "✓";
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 38px;
+            margin-right: 12px;
+            animation: checkPop 0.5s ease-out;
+        }
+
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* SLIDE 9 - Value Items Staggered */
+        .value-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 28px;
+            margin: 15px 0;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            font-size: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: slideInScale 0.6s ease-out forwards;
+        }
+
+        .value-item:nth-child(1) { animation-delay: 0.2s; }
+        .value-item:nth-child(2) { animation-delay: 0.4s; }
+        .value-item:nth-child(3) { animation-delay: 0.6s; }
+
+        .value-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+            border-color: #00ff88;
+        }
+
+        .value-amount {
+            font-size: 45px;
+            font-weight: 800;
+            color: #00ff88;
+        }
+
+        /* SLIDE 10 - Col Boxes Staggered */
+        .col-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 35px 28px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: popIn 0.6s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .col-box:nth-child(1) { animation-delay: 0.1s; }
+        .col-box:nth-child(2) { animation-delay: 0.3s; }
+        .col-box:nth-child(3) { animation-delay: 0.5s; }
+
+        .col-box:hover {
+            transform: translateY(-8px) scale(1.05);
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
+            border-color: #00ff88;
+        }
+
+        .col-box h4 {
+            font-size: 26px;
+            margin-bottom: 18px;
+            color: #00d4ff;
+        }
+
+        .col-box .number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #00ff88;
+            margin: 18px 0;
+        }
+
+        /* SLIDE 11 - Scaling Animation */
+        .before .value, .after .value {
+            font-size: 52px;
+            font-weight: 800;
+            animation: scaleNumber 1s ease-out;
+        }
+
+        @keyframes scaleNumber {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .medium-number {
+            font-size: 75px;
+            font-weight: 800;
+            color: #00ff88;
+            margin: 25px 0;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 40px rgba(0, 255, 136, 0.8);
+            }
+        }
+
+        /* SLIDE 14 - Timeline Animation */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 22px;
+            left: 20%;
+            right: 20%;
+            height: 4px;
+            background: #00d4ff;
+            z-index: 0;
+            animation: drawLine 1.5s ease-out;
+        }
+
+        @keyframes drawLine {
+            from { width: 0; }
+            to { width: 60%; }
+        }
+
+        .timeline-point {
+            width: 26px;
+            height: 26px;
+            background: #00d4ff;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 5px solid #0a0a0a;
+            animation: pointPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pointPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(0, 212, 255, 0);
+            }
+        }
+
+        .timeline-item {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.8s; }
+
+        /* SLIDE 17 - Confetti Effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #00d4ff;
+            animation: confettiFall 3s ease-out forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(600px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Rest of existing styles */
+        .thank-you {
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #00ff88, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            animation: fadeInScale 1.2s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .team-members {
+            position: relative;
+            margin-top: 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #aaaaaa;
+        }
+
+        .team-members .name-shruti {
+            color: #00d4ff;
+            font-weight: 700;
+        }
+
+        .team-members .name-rohit {
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .team-members .name-smit {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .team-members .separator {
+            color: #666666;
+            margin: 0 12px;
+        }
+
+        
+
+        .kyra-logo-small {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            position: relative;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .kyra-logo-small 
+
+        .kyra-logo-small 
+
+        .kyra-logo-small 
+
+        .kyra-logo-small 
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .logo-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+            position: relative;
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-inner {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-text {
+            font-size: 58px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+        }
+
+        .logo-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-dot {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.9);
+        }
+
+        .logo-dot:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo-dot:nth-child(2) {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo-dot:nth-child(3) {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .logo-dot:nth-child(4) {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .slide h1 {
+            font-size: 68px;
+            margin-bottom: 25px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .slide h2 {
+            font-size: 52px;
+            margin-bottom: 35px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .slide p {
+            font-size: 30px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .highlight-blue {
+            color: #00d4ff;
+        }
+
+        .highlight-green {
+            color: #00ff88;
+        }
+
+        .highlight-red {
+            color: #ff4444;
+        }
+
+        .highlight-yellow {
+            color: #ffd700;
+        }
+
+        .highlight-orange {
+            color: #ff8800;
+        }
+
+        .highlight-bright {
+            color: #ff0090;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255, 0, 144, 0.6);
+        }
+
+        .big-number {
+            font-size: 110px;
+            font-weight: 900;
+            color: #00d4ff;
+            margin: 35px 0;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .before, .after {
+            text-align: center;
+        }
+
+        .before h4, .after h4 {
+            font-size: 30px;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .before h4 {
+            color: #ff4444;
+        }
+
+        .after h4 {
+            color: #00ff88;
+        }
+
+        .no-bullet-list {
+            text-align: left;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        .bottom-line-box {
+            background: linear-gradient(135deg, rgba(255, 68, 68, 0.2), rgba(255, 136, 0, 0.2));
+            border: 3px solid #ff4444;
+            padding: 28px 35px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .bottom-line-box p {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .value-breakdown {
+            text-align: left;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        .roi-box {
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            color: #000;
+            padding: 40px 50px;
+            border-radius: 20px;
+            margin: 30px auto;
+            max-width: 700px;
+        }
+
+        .roi-box h3 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .roi-box .big-number {
+            color: #000;
+            text-shadow: none;
+            font-size: 90px;
+            margin: 20px 0;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 40px 0 30px 0;
+            position: relative;
+            gap: 80px;
+        }
+
+        .timeline-label {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #cccccc;
+        }
+
+        .timeline-value {
+            font-size: 40px;
+            font-weight: 800;
+            color: #00ff88;
+            margin-bottom: 6px;
+        }
+
+        .timeline-desc {
+            font-size: 18px;
+            color: #999;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: #ff4444;
+            color: #fff;
+            padding: 18px 38px;
+            border-radius: 50px;
+            font-size: 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .demo-badge:hover {
+            background: #ff6666;
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 68, 68, 1);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 40px rgba(255, 68, 68, 0.8);
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 280px;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .nav-controls > * {
+            pointer-events: auto;
+        }
+
+        .nav-btn-wrapper {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 10px 20px;
+            border-radius: 15px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-btn {
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid #00d4ff;
+            color: #00d4ff;
+            padding: 12px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(0, 212, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            background: rgba(100, 100, 100, 0.2);
+            border-color: #555555;
+            color: #555555;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .tagline {
+            font-size: 38px;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 30px;
+            color: #aaaaaa;
+            margin-top: -8px;
+            margin-bottom: 35px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .check-list {
+            text-align: left;
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+
+        .closing-tagline {
+            font-size: 32px;
+            color: #00d4ff;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .closing-message {
+            font-size: 28px;
+            color: #aaaaaa;
+            margin: 25px 0;
+            font-weight: 500;
+        }
+
+        .closing-team {
+            font-size: 24px;
+            color: #888888;
+            margin-top: 30px;
+        }
+
+        .closing-team .name-shruti {
+            color: #00d4ff;
+            font-weight: 700;
+        }
+
+        .closing-team .name-rohit {
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .closing-team .name-smit {
+            color: #ffd700;
+            font-weight: 700;
+        }
+    
+        /* ========== Optimized Last Slide (Slide 17) Styling ========== */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /* Optimized Slide 7 Styling */
+        [data-slide="6"] .slide-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        [data-slide="6"] h2 {
+            font-size: 72px !important;
+            margin-top: 0 !important;
+        }
+        
+        [data-slide="6"] p {
+            font-size: 48px !important;
+            margin-top: 40px !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="nav-sidebar">
+            
+            <h3>Chapters</h3>
+            <ul class="chapter-list" id="chapterList">
+                <li class="chapter-item active" data-slides="1">1. Introduction</li>
+                <li class="chapter-item" data-slides="2,3,4">2. The Crisis</li>
+                <li class="chapter-item" data-slides="5">3. Why Now?</li>
+                <li class="chapter-item" data-slides="6,7">4. KYRA Demo</li>
+                <li class="chapter-item" data-slides="8,9">5. The Impact</li>
+                <li class="chapter-item" data-slides="10">6. Why KYRA Wins</li>
+                <li class="chapter-item" data-slides="11,12">7. The Ask</li>
+                <li class="chapter-item" data-slides="13">8. What Prosus Gets</li>
+                <li class="chapter-item" data-slides="14,15">9. Next Steps</li>
+            </ul>
+
+        </div>
+
+        <div class="presentation-main">
+            <div class="slide-counter" id="slideCounter">1 / 15</div>
+            
+            <div class="slides-container" id="slidesContainer">
+                
+                <!-- Slide 1: Title -->
+                <div class="slide active" data-slide="1">
+                    <!-- Floating Particles -->
+                    <div class="particles" id="particles1"></div>
+                    
+                    <div class="slide-content">
+                        <div class="kyra-logo">
+                            <div class="logo-circle">
+                                <div class="logo-inner">
+                                    <div class="logo-text">KYRA AI</div>
+                                </div>
+                            </div>
+                            <div class="logo-orbit">
+                                <div class="logo-dot"></div>
+                                <div class="logo-dot"></div>
+                                <div class="logo-dot"></div>
+                                <div class="logo-dot"></div>
+                            </div>
+                        </div>
+                        
+                        <p class="tagline fade-in-up delay-1">Intelligence That Knows Your Customer.</p>
+                        <p class="subtitle fade-in-up delay-2">AI-Driven KYC <strong style="color: #00ff88;">Realtime</strong> Automation</p>
+                        
+                        <div class="team-members fade-in-up delay-3">
+                            From: <span class="name-shruti">Shruti</span><span class="separator">||</span><span class="name-rohit">Rohit</span><span class="separator">||</span><span class="name-smit">Smit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: The Crisis -->
+                <div class="slide" data-slide="2">
+                    <div class="slide-content">
+                        <div class="warning-icon">⚠️</div>
+                        <h2 class="highlight-red fade-in-up">The Crisis</h2>
+                        <div class="big-number crisis-pulse" style="color: #ff4444;">₹18 CRORE</div>
+                        <p style="font-size: 38px;" class="fade-in-up delay-1">Annual Impact at Risk</p>
+                    </div>
+                </div>
+
+                <!-- Slide 3: CKYC Document Bottleneck -->
+                <div class="slide" data-slide="3">
+                    <div class="slide-content">
+                        <h2 class="highlight-red">CKYC Document Bottleneck</h2>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-number">40%</div>
+                                <div class="stat-label">Customer Abandonment</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">33 Lakh</div>
+                                <div class="stat-label">Docs Processed per Year</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">₹3.40</div>
+                                <div class="stat-label">Cost per C-KYC Document</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">₹1.2 Cr</div>
+                                <div class="stat-label">Annual Processing Cost</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Video Bottleneck -->
+                <div class="slide" data-slide="4">
+                    <div class="slide-content">
+                        <h2 class="highlight-red">Video KYC Bottleneck</h2>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-number">110</div>
+                                <div class="stat-label">People for Manual Review</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">16 Lakh</div>
+                                <div class="stat-label">Videos per Year</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">3-5 Days</div>
+                                <div class="stat-label">Manual Processing Time</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number">₹3.39 Cr</div>
+                                <div class="stat-label">Annual Processing Cost</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- Slide 5: Critical Risks (Combined 5+6) -->
+                <div class="slide" data-slide="5">
+                    <div class="slide-content">
+                        <h2 class="highlight-red">Critical Risks</h2>
+                        <div class="no-bullet-list">
+                            <div class="no-bullet-item">
+                                <strong class="highlight-blue">CKYC & Video KYC now mandatory first option for</strong> (all flows)
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong class="highlight-orange">1,200+ critical audit observations</strong> (24+ months pending)
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong class="highlight-red">₹1-2 Cr penalty exposure</strong> + C-suite reputation at stake
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong class="highlight-yellow">Volume explosion</strong> from internal + co-lending partners
+                            </div>
+                        </div>
+                        <div class="bottom-line-box">
+                            <p>PayU Fin <strong class="highlight-yellow">cannot scale</strong> without solving this NOW.</p>
+                        </div>
+                    </div>
+                </div>
+
+                                <!-- Slide 6: Live Demo -->
+                <div class="slide" data-slide="6">
+                    <div class="slide-content">
+                        <a href="http://ec2-13-232-196-156.ap-south-1.compute.amazonaws.com:8080/index.html" target="_blank" class="demo-badge">🎬 LIVE DEMO</a>
+                        <h2 style="margin-top: 50px;">KYRA in Action</h2>
+                        <p style="font-size: 38px; margin-top: 35px;">Real-time Processing</p>
+                    </div>
+                </div>
+
+                <!-- Slide 7: Demo Features -->
+                <div class="slide" data-slide="7">
+                    <div class="slide-content">
+                        <h2>Demo Highlights</h2>
+                        <div class="comparison">
+                            <div class="before">
+                                <h4>Before</h4>
+                                <div class="value highlight-red">3-5 Days</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="after">
+                                <h4>After</h4>
+                                <div class="value highlight-green">3-6 Seconds</div>
+                            </div>
+                        </div>
+                        <div class="check-list">
+                            <div class="check-item">Multi-format support (JPEG, PNG, MP4)</div>
+                            <div class="check-item">AI-fraud detection with risk scores</div>
+                            <div class="check-item">Automatic video verification</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 8: Total Impact -->
+                <div class="slide" data-slide="8">
+                    <div class="slide-content">
+                        <h2 class="highlight-green">Total Annual Impact</h2>
+                        <div class="big-number">₹18.12 Cr</div>
+                        <div class="value-breakdown">
+                            <div class="value-item">
+                                <span>Revenue Protection</span>
+                                <span class="value-amount">₹12 Cr</span>
+                            </div>
+                            <div class="value-item">
+                                <span>Cost Savings (Docs + Video)</span>
+                                <span class="value-amount">₹4.12 Cr</span>
+                            </div>
+                            <div class="value-item">
+                                <span>Regulatory Protection</span>
+                                <span class="value-amount">₹2 Cr</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- Slide 9: KYRA Impact (Combined 10+11) -->
+                <div class="slide" data-slide="9">
+                    <div class="slide-content">
+                        <h2 class="highlight-green">KYRA Impact</h2>
+                        
+                        <!-- Cost & Time Improvements -->
+                        <div class="three-col" style="margin-bottom: 50px;">
+                            <div class="col-box">
+                                <h4>C-KYC Cost</h4>
+                                <div class="number highlight-green">85% ↓</div>
+                                <p style="font-size: 20px; color: #999;">₹3.40 → ₹0.50</p>
+                            </div>
+                            <div class="col-box">
+                                <h4>V-KYC Cost</h4>
+                                <div class="number highlight-green">95% ↓</div>
+                                <p style="font-size: 20px; color: #999;">₹8-15 → ₹0.80</p>
+                            </div>
+                            <div class="col-box">
+                                <h4>Processing Time</h4>
+                                <div class="number highlight-green">99.9% ↓</div>
+                                <p style="font-size: 20px; color: #999;">3-5 days → 6 sec</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Throughput Comparison -->
+                        <div class="comparison" style="margin-top: 40px;">
+                            <div class="before">
+                                <h4>Daily Throughput</h4>
+                                <div class="value highlight-red">4-5K</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="after">
+                                <h4>With KYRA</h4>
+                                <div class="value highlight-green">50K+</div>
+                            </div>
+                        </div>
+                        <div class="medium-number highlight-blue" style="margin-top: 30px;">10X Performance Boost</div>
+                    </div>
+                </div>
+
+                                <!-- Slide 10: Why KYRA Wins -->
+                <div class="slide" data-slide="10">
+                    <div class="slide-content">
+                        <h2 class="highlight-blue">Why KYRA Wins</h2>
+                        <div class="no-bullet-list">
+                            <div class="no-bullet-item">
+                                <strong>End-to-End Platform</strong> – Docs + Video unified
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong>Advanced AI-Fraud Detection</strong> – Detects AI-generated fakes
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong>Production-Ready</strong> – AWS infrastructure, scale ready
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong>Handles Poor Quality</strong> – Works with real-world data
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 11: The Ask -->
+                <div class="slide" data-slide="11">
+                    <div class="slide-content">
+                        <h2 class="highlight-yellow">The Ask</h2>
+                        <div class="big-number">₹1.5 Cr</div>
+                        <p style="font-size: 36px; margin-top: 35px;">Investment Required</p>
+                        <div class="no-bullet-list" style="max-width: 700px; margin-top: 50px;">
+                            <div class="no-bullet-item" style="font-size: 34px;">
+                                <strong>6 Engineers</strong> for scaling
+                            </div>
+                            <div class="no-bullet-item" style="font-size: 34px;">
+                                <strong>AWS Infrastructure</strong> expansion
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 12: ROI -->
+                <div class="slide" data-slide="12">
+                    <div class="slide-content">
+                        <h2 style="margin-bottom: 25px;">Return on Investment</h2>
+                        <div class="roi-box">
+                            <h3>Payback Period</h3>
+                            <div class="big-number">45 Days</div>
+                            <p style="font-size: 28px; color: #000;"></p>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-label">90 Days</div>
+                                <div class="timeline-value">IPO-Ready</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-label">Year 1</div>
+                                <div class="timeline-value">₹18 Cr</div>
+                                <div class="timeline-desc">Annual Impact</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 13: What Prosus Gets -->
+                <div class="slide" data-slide="13">
+                    <div class="slide-content">
+                        <h2 class="highlight-green">What Prosus Gets</h2>
+                        <div class="no-bullet-list">
+                            <div class="no-bullet-item">
+                                <strong>Immediate Impact</strong> – ₹18 Cr annual value
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong>Strategic Asset</strong> – Scales across portfolio companies
+                            </div>
+                            <div class="no-bullet-item">
+                                <strong>Revenue Engine</strong> – B2B SaaS opportunity
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 14: Growth Roadmap -->
+                <div class="slide" data-slide="14">
+                    <div class="slide-content">
+                        <h2>Growth Roadmap</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-label">Year 2-3</div>
+                                <div class="timeline-value">₹50 Cr</div>
+                                <div class="timeline-desc">Revenue Target</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-point"></div>
+                                <div class="timeline-label">Year 3-5</div>
+                                <div class="timeline-value">₹500 Cr</div>
+                                <div class="timeline-desc">Valuation Target</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 26px; margin-top: 60px; color: #aaa;">Aligned with Prosus AI vision</p>
+                    </div>
+                </div>
+
+                <!-- Slide 15: Closing -->
+                <div class="slide" data-slide="15">
+                    <!-- Confetti Container -->
+                    <div id="confettiContainer"></div>
+                    
+                    <div class="slide-content">
+                        <div class="kyra-logo-small">
+                            <div class="logo-circle">
+                                <div class="logo-inner">
+                                    <div class="logo-text">KYRA AI</div>
+                                </div>
+                            </div>
+                            <div class="logo-orbit">
+                                <div class="logo-dot"></div>
+                                <div class="logo-dot"></div>
+                                <div class="logo-dot"></div>
+                                <div class="logo-dot"></div>
+                            </div>
+                        </div>
+                        
+                        <h1 class="thank-you">Thank You!</h1>
+                        <p class="closing-tagline fade-in-up delay-1">Intelligence That Knows Your Customer</p>
+                        
+                        <p style="margin-top: 20px; font-size: 32px; font-weight: 600; background: linear-gradient(135deg, #00d4ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: textShimmer 3s ease-in-out infinite; background-size: 200% 200%;">
+                            Let's transform KYC together
+                        </p>
+                        
+                        <p style="margin-top: 25px; font-size: 26px;">
+                            <strong style="color: #00d4ff;">Company:</strong> <span style="color: #ffffff;">PayU Finance</span> <span style="color: #888; margin: 0 10px;">||</span> <strong style="color: #00ff88;">Category:</strong> <span style="color: #ffaa00;">Efficiency</span>
+                        </p>
+                        
+                        <div class="closing-team fade-in-up delay-3">
+                            <span class="name-shruti">Shruti</span> || <span class="name-rohit">Rohit</span> || <span class="name-smit">Smit</span>
+                        </div>
+                    </div>
+                </div>
+
+                            </div>
+
+            <div class="nav-controls">
+                <div class="nav-btn-wrapper">
+                    <button class="nav-btn" id="prevBtn">← Previous</button>
+                    <button class="nav-btn" id="nextBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+        
+        const chapterSlides = {
+            1: [1],
+            2: [2, 3, 4],
+            3: [5],
+            4: [6, 7],
+            5: [8, 9],
+            6: [10],
+            7: [11, 12],
+            8: [13],
+            9: [14, 15]
+        };
+
+        function init() {
+            createParticles();
+            updateSlideDisplay();
+            updateChapterHighlight();
+            updateNavigationButtons();
+            
+            document.getElementById('prevBtn').addEventListener('click', () => navigateSlide(-1));
+            document.getElementById('nextBtn').addEventListener('click', () => navigateSlide(1));
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') navigateSlide(-1);
+                if (e.key === 'ArrowRight') navigateSlide(1);
+            });
+            
+            document.querySelectorAll('.chapter-item').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    const chapterNum = index + 1;
+                    const firstSlide = chapterSlides[chapterNum][0];
+                    goToSlide(firstSlide);
+                });
+            });
+        }
+
+        // Create floating particles for Slide 1
+        function createParticles() {
+            const container = document.getElementById('particles1');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Create confetti for Slide 17
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            container.innerHTML = '';
+            const colors = ['#00d4ff', '#00ff88', '#ffd700', '#ff4444'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(confetti);
+            }
+        }
+
+        function navigateSlide(direction) {
+            const newSlide = currentSlide + direction;
+            if (newSlide >= 1 && newSlide <= totalSlides) {
+                goToSlide(newSlide);
+            }
+        }
+
+        function goToSlide(slideNum) {
+            document.querySelector(`[data-slide="${currentSlide}"]`).classList.remove('active');
+            currentSlide = slideNum;
+            document.querySelector(`[data-slide="${currentSlide}"]`).classList.add('active');
+            
+            // Trigger confetti on slide 17
+            if (currentSlide === 17) {
+                setTimeout(createConfetti, 500);
+            }
+            
+            updateSlideDisplay();
+            updateChapterHighlight();
+            updateNavigationButtons();
+        }
+
+        function updateSlideDisplay() {
+            document.getElementById('slideCounter').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        function updateChapterHighlight() {
+            document.querySelectorAll('.chapter-item').forEach((item, index) => {
+                const chapterNum = index + 1;
+                const slides = chapterSlides[chapterNum];
+                
+                if (slides.includes(currentSlide)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+        }
+
+        init();
+    </script>
+
+    <!-- Cinematic Starfield Background for Slide 1 -->
+    <style>
+        #starfield-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        #slide1.active #starfield-canvas {
+            opacity: 1;
+        }
+        
+        #slide1 .content {
+            position: relative;
+            z-index: 10;
+        }
+    
+        /* ========== Premium Hover Effect for KYRA AI Logo ========== */
+        
+        .kyra-logo,
+        .kyra-logo-small {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .kyra-logo:hover,
+        .kyra-logo-small:hover {
+            transform: scale(1.08) translateY(-5px);
+        }
+        
+        .kyra-logo:hover .logo-circle,
+        .kyra-logo-small:hover .logo-circle {
+            background: linear-gradient(135deg, #00e5ff 0%, #00ffaa 50%, #00d4ff 100%) !important;
+            box-shadow: 
+                0 0 120px rgba(0, 212, 255, 1),
+                0 0 80px rgba(0, 255, 136, 0.8),
+                0 20px 50px rgba(0, 212, 255, 0.6),
+                inset 0 0 60px rgba(255, 255, 255, 0.1) !important;
+            animation: pulseGlow 2s ease-in-out infinite !important;
+        }
+        
+        .kyra-logo:hover .logo-inner,
+        .kyra-logo-small:hover .logo-inner {
+            background: radial-gradient(circle at center, #0f0f0f 0%, #0a0a0a 100%) !important;
+            box-shadow: 
+                inset 0 0 40px rgba(0, 212, 255, 0.3),
+                inset 0 0 80px rgba(0, 255, 136, 0.2) !important;
+        }
+        
+        .kyra-logo:hover .logo-text,
+        .kyra-logo-small:hover .logo-text {
+            background: linear-gradient(135deg, #ffffff 0%, #00e5ff 30%, #00ffaa 70%, #ffffff 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            filter: brightness(1.4) drop-shadow(0 0 20px rgba(0, 212, 255, 0.8));
+            animation: textShimmer 3s ease-in-out infinite !important;
+            background-size: 200% 200%;
+        }
+        
+        .kyra-logo:hover .logo-dot,
+        .kyra-logo-small:hover .logo-dot {
+            background: linear-gradient(135deg, #ffffff, #00e5ff) !important;
+            box-shadow: 
+                0 0 40px rgba(0, 212, 255, 1),
+                0 0 60px rgba(255, 255, 255, 0.8),
+                0 0 80px rgba(0, 255, 136, 0.6) !important;
+            animation: dotPulse 1s ease-in-out infinite !important;
+        }
+        
+        .kyra-logo:hover .logo-dot:nth-child(1),
+        .kyra-logo-small:hover .logo-dot:nth-child(1) {
+            transform: translateX(-50%) scale(1.5) !important;
+        }
+        
+        .kyra-logo:hover .logo-dot:nth-child(2),
+        .kyra-logo-small:hover .logo-dot:nth-child(2) {
+            transform: translateX(-50%) scale(1.5) !important;
+        }
+        
+        .kyra-logo:hover .logo-dot:nth-child(3),
+        .kyra-logo-small:hover .logo-dot:nth-child(3) {
+            transform: translateY(-50%) scale(1.5) !important;
+        }
+        
+        .kyra-logo:hover .logo-dot:nth-child(4),
+        .kyra-logo-small:hover .logo-dot:nth-child(4) {
+            transform: translateY(-50%) scale(1.5) !important;
+        }
+        
+        .kyra-logo:hover .logo-orbit,
+        .kyra-logo-small:hover .logo-orbit {
+            animation: rotate 2.5s linear infinite !important;
+        }
+        
+        /* Pulsing glow animation for outer circle */
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 120px rgba(0, 212, 255, 1),
+                    0 0 80px rgba(0, 255, 136, 0.8),
+                    0 20px 50px rgba(0, 212, 255, 0.6),
+                    inset 0 0 60px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 
+                    0 0 160px rgba(0, 212, 255, 1),
+                    0 0 120px rgba(0, 255, 136, 1),
+                    0 20px 70px rgba(0, 212, 255, 0.8),
+                    inset 0 0 80px rgba(255, 255, 255, 0.15);
+            }
+        }
+        
+        /* Text shimmer animation */
+        @keyframes textShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* Dot pulse animation */
+        @keyframes dotPulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.6);
+            }
+        }
+
+    
+        /* ========== Optimized Last Slide (Slide 17) Styling ========== */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /* Optimized Slide 7 Styling */
+        [data-slide="6"] .slide-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        [data-slide="6"] h2 {
+            font-size: 72px !important;
+            margin-top: 0 !important;
+        }
+        
+        [data-slide="6"] p {
+            font-size: 48px !important;
+            margin-top: 40px !important;
+        }
+
+    
+        /* ========== Premium Hover Animation for LIVE DEMO Button ========== */
+        
+        .demo-badge {
+            position: relative;
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffffff;
+            background: linear-gradient(135deg, #ff4444 0%, #ff6666 100%);
+            border: 3px solid #ff4444;
+            border-radius: 50px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 
+                0 10px 30px rgba(255, 68, 68, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+        
+        .demo-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.6s;
+        }
+        
+        .demo-badge::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .demo-badge:hover {
+            transform: scale(1.12) translateY(-8px);
+            background: linear-gradient(135deg, #ff6666 0%, #ff8888 100%);
+            border-color: #ffffff;
+            box-shadow: 
+                0 0 60px rgba(255, 68, 68, 1),
+                0 0 100px rgba(255, 102, 102, 0.8),
+                0 20px 50px rgba(255, 68, 68, 0.7),
+                inset 0 0 40px rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 68, 68, 0.6);
+            animation: buttonPulse 1.5s ease-in-out infinite;
+        }
+        
+        .demo-badge:hover::before {
+            left: 100%;
+        }
+        
+        .demo-badge:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .demo-badge:active {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 
+                0 0 40px rgba(255, 68, 68, 0.8),
+                0 10px 30px rgba(255, 68, 68, 0.5);
+        }
+        
+        /* Pulsing glow animation for demo button */
+        @keyframes buttonPulse {
+            0%, 100% {
+                box-shadow: 
+                    0 0 60px rgba(255, 68, 68, 1),
+                    0 0 100px rgba(255, 102, 102, 0.8),
+                    0 20px 50px rgba(255, 68, 68, 0.7),
+                    inset 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    0 0 80px rgba(255, 68, 68, 1),
+                    0 0 120px rgba(255, 102, 102, 1),
+                    0 20px 60px rgba(255, 68, 68, 0.9),
+                    inset 0 0 50px rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        /* Slide 7 specific button positioning */
+        [data-slide="6"] .demo-badge {
+            margin-bottom: 30px;
+        }
+
+    
+        /* ========== OPTIMIZED LAST SLIDE (17) - PERFECT FIT ========== */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+    
+        /* ========== SLIDE 1 LOGO - 30% BIGGER ========== */
+        .kyra-logo {
+            width: 364px;
+            height: 364px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .logo-circle {
+            width: 364px;
+            height: 364px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+            position: relative;
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-inner {
+            width: 325px;
+            height: 325px;
+            border-radius: 50%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-text {
+            font-size: 75px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+        }
+
+        .logo-dot {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.9);
+        }
+
+
+        /* ========== SLIDE 17 LOGO - 50% BIGGER ========== */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /* Adjust slide 17 content padding to accommodate larger logo */
+        
+        
+        /* Reduce other element sizes slightly to maintain balance */
+        
+        
+        
+        
+        
+        
+        
+
+    
+        /* ========== FIX LAST SLIDE SCROLL ========== */
+        
+        
+        
+        
+        body, html {
+            overflow: hidden !important;
+        }
+        
+        .slides-container {
+            overflow: hidden !important;
+        }
+
+    
+        /* ========== OPTIMIZED LAST SLIDE (15) - BROWSER FIT ========== */
+        
+        [data-slide="15"] .slide-content {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            height: 100% !important;
+            padding: 25px 80px 90px 80px !important;
+        }
+        
+        [data-slide="15"] .kyra-logo-small {
+            width: 270px !important;
+            height: 270px !important;
+            margin: 0 auto 22px !important;
+        }
+        
+        [data-slide="15"] .kyra-logo-small .logo-circle {
+            width: 270px !important;
+            height: 270px !important;
+        }
+        
+        [data-slide="15"] .kyra-logo-small .logo-inner {
+            width: 240px !important;
+            height: 240px !important;
+        }
+        
+        [data-slide="15"] .kyra-logo-small .logo-text {
+            font-size: 62px !important;
+        }
+        
+        [data-slide="15"] .kyra-logo-small .logo-dot {
+            width: 15px !important;
+            height: 15px !important;
+        }
+        
+        [data-slide="15"] .thank-you {
+            font-size: 68px !important;
+            margin-bottom: 16px !important;
+            margin-top: 0 !important;
+        }
+        
+        [data-slide="15"] .closing-tagline {
+            font-size: 34px !important;
+            margin-bottom: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        [data-slide="15"] .closing-message {
+            font-size: 30px !important;
+            margin-top: 25px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        [data-slide="15"] .closing-team {
+            font-size: 28px !important;
+            margin-top: 20px !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 15px !important;
+        }
+
+    </style>
+    
+    <script>
+        // Premium Cinematic Starfield Animation
+        class CinematicStarfield {
+            constructor() {
+                this.canvas = null;
+                this.ctx = null;
+                this.stars = [];
+                this.shootingStars = [];
+                this.initialized = false;
+            }
+            
+            init() {
+                if (this.initialized) return;
+                
+                const slide1 = document.getElementById('slide1');
+                this.canvas = document.createElement('canvas');
+                this.canvas.id = 'starfield-canvas';
+                slide1.insertBefore(this.canvas, slide1.firstChild);
+                
+                this.ctx = this.canvas.getContext('2d');
+                this.resize();
+                this.createStars();
+                this.animate();
+                this.initialized = true;
+                
+                window.addEventListener('resize', () => this.resize());
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            createStars() {
+                // Create multiple layers of stars for depth
+                const starCount = 200;
+                
+                for (let i = 0; i < starCount; i++) {
+                    this.stars.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2.5,
+                        opacity: Math.random(),
+                        twinkleSpeed: 0.001 + Math.random() * 0.003,
+                        twinkleDirection: Math.random() > 0.5 ? 1 : -1,
+                        color: this.getStarColor(),
+                        layer: Math.random() // For parallax depth
+                    });
+                }
+            }
+            
+            getStarColor() {
+                // Premium color palette: cool whites, icy blues, subtle cyans
+                const colors = [
+                    { r: 255, g: 255, b: 255 },      // Pure white
+                    { r: 240, g: 248, b: 255 },      // Alice blue
+                    { r: 200, g: 230, b: 255 },      // Ice blue
+                    { r: 180, g: 240, b: 255 },      // Cyan tint
+                    { r: 0, g: 212, b: 255 }         // Brand cyan (sparse)
+                ];
+                
+                // Weighted selection - mostly whites and blues
+                const rand = Math.random();
+                if (rand < 0.5) return colors[0];
+                if (rand < 0.75) return colors[1];
+                if (rand < 0.90) return colors[2];
+                if (rand < 0.97) return colors[3];
+                return colors[4];
+            }
+            
+            animate() {
+                this.ctx.fillStyle = 'rgba(10, 10, 15, 0.1)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw and update stars
+                this.stars.forEach(star => {
+                    // Twinkling effect
+                    star.opacity += star.twinkleSpeed * star.twinkleDirection;
+                    
+                    if (star.opacity <= 0.1 || star.opacity >= 1) {
+                        star.twinkleDirection *= -1;
+                    }
+                    
+                    // Draw star with glow
+                    const gradient = this.ctx.createRadialGradient(
+                        star.x, star.y, 0,
+                        star.x, star.y, star.size * 3
+                    );
+                    
+                    gradient.addColorStop(0, 
+                        `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${star.opacity})`
+                    );
+                    gradient.addColorStop(0.5, 
+                        `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${star.opacity * 0.3})`
+                    );
+                    gradient.addColorStop(1, 
+                        `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, 0)`
+                    );
+                    
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.beginPath();
+                    this.ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                });
+                
+                // Occasional shooting star
+                if (Math.random() < 0.002) {
+                    this.createShootingStar();
+                }
+                
+                this.updateShootingStars();
+                
+                requestAnimationFrame(() => this.animate());
+            }
+            
+            createShootingStar() {
+                this.shootingStars.push({
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height * 0.5,
+                    length: 80 + Math.random() * 100,
+                    speed: 3 + Math.random() * 4,
+                    angle: Math.PI / 4 + (Math.random() - 0.5) * 0.5,
+                    opacity: 1,
+                    decay: 0.015 + Math.random() * 0.015
+                });
+            }
+            
+            updateShootingStars() {
+                this.shootingStars = this.shootingStars.filter(star => {
+                    star.x += Math.cos(star.angle) * star.speed;
+                    star.y += Math.sin(star.angle) * star.speed;
+                    star.opacity -= star.decay;
+                    
+                    if (star.opacity > 0) {
+                        const gradient = this.ctx.createLinearGradient(
+                            star.x, star.y,
+                            star.x - Math.cos(star.angle) * star.length,
+                            star.y - Math.sin(star.angle) * star.length
+                        );
+                        
+                        gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`);
+                        gradient.addColorStop(0.3, `rgba(0, 212, 255, ${star.opacity * 0.6})`);
+                        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                        
+                        this.ctx.strokeStyle = gradient;
+                        this.ctx.lineWidth = 2;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(star.x, star.y);
+                        this.ctx.lineTo(
+                            star.x - Math.cos(star.angle) * star.length,
+                            star.y - Math.sin(star.angle) * star.length
+                        );
+                        this.ctx.stroke();
+                        
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        }
+        
+        // Initialize starfield when presentation loads
+        const starfield = new CinematicStarfield();
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => starfield.init());
+        } else {
+            starfield.init();
+        }
+    </script>
+
+</body>
+</html>
